@@ -32,4 +32,7 @@
  
  Once we have the index in a state we would like to store as a tree, we can use `git write-tree`, this creates and stores a tree object and gives us back the hash for it.
 
-$
+## Creating commits
+ 
+ A commit is metadata about a specific tree, including the tree parent, the author of the commit and a description. We can create a commit at any point by use the `git commit-tree` command, this takes a tree hash and a description, we can also use the `-p` flag to pass the parent tree
+

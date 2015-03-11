@@ -22,5 +22,6 @@
 <h2 id="creating-trees">Creating trees</h2>
 <p> A tree is simply a pointer to blobs and other trees, we can use the <code>git write-tree</code> command to take the current index and create a tree out of it. Our index can be thought of as staged changes. We can update the current index using the <code>git update-index</code> command, and using the <code>--cacheinfo</code> flag we pass it a filetype, a blob hash and a file name. This will create a <code>.git/index</code> file which contains the current state.</p>
 <p> Once we have the index in a state we would like to store as a tree, we can use <code>git write-tree</code>, this creates and stores a tree object and gives us back the hash for it.</p>
-<p>$</p>
+<h2 id="creating-commits">Creating commits</h2>
+<p> A commit is metadata about a specific tree, including the tree parent, the author of the commit and a description. We can create a commit at any point by use the <code>git commit-tree</code> command, this takes a tree hash and a description, we can also use the <code>-p</code> flag to pass the parent tree</p>
 
