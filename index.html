@@ -1,0 +1,25 @@
+<h1 id="git-internals">Git Internals</h1>
+<h2 id="what-makes-a-git-repository-">What makes a git repository?</h2>
+<p> To create a git repository you just need the <code>.git</code> directory in your project, with a few essential subdirectories and files.</p>
+<p> Those subdirectories and files are:</p>
+<ul>
+<li>HEAD - This file tells git where the HEAD of your repo currently is, it points to a ref</li>
+<li>/refs - This directory conatains all the refs, or pointers, to commits, e.g. branches, tags etc...</li>
+<li>/objects - This directory is the database of git, its the storage part of the key-value store on which git sits </li>
+</ul>
+<h2 id="the-storage-mechanism">The storage mechanism</h2>
+<p> You can think of git as a wrapper over a content addressable key-value store, there are three contents types: blobs, trees and commits.</p>
+<p> Essentially, a blob is a file, a tree is a directory, which contains blobs or other trees and a commit is metadata for a tree.</p>
+<p> Git stores all of this in the objects directory. The process for doing so is like:</p>
+<ul>
+<li>Add a header to the content consisting of the content type (blob/tree/commit) the content length and a null byte.</li>
+<li>Use a SHA1 hashing algorithm on the header + content</li>
+<li><p>Use zlib defalte compression on the hash</p>
+<p>The resulting compressed string is then stored in the objects directory, using the first 2 chars of the hash as the sub dir and the remaining as the file name.</p>
+<p>Git internals give use a command that wraps this process up for us: <code>git hash-object</code>. We also get the reverse of this command, which takes a hash and gives us the content which is <code>git cat-file</code></p>
+</li>
+</ul>
+<h2 id="creating-trees">Creating trees</h2>
+<p> A tree is simply a pointer to blobs and other trees, we can use the <code>git write-tree</code> command to take the current index and create a tree out of it. Our index can be thought of as staged changes. We can update the current index using the <code>git update-index</code> command, and using the <code>--cacheinfo</code> flag we pass it a filetype, a blob hash and a file name. This will create a <code>.git/index</code> file which contains the current state.</p>
+<p> Once we have the index in a state we would like to store as a tree, we can use <code>git write-tree</code>, this creates and stores a tree object and gives us back the hash for it.</p>
+
