@@ -26,3 +26,10 @@
  
  Git internals give use a command that wraps this process up for us: `git hash-object`. We also get the reverse of this command, which takes a hash and gives us the content which is `git cat-file`
 
+## Creating trees
+ 
+ A tree is simply a pointer to blobs and other trees, we can use the `git write-tree` command to take the current index and create a tree out of it. Our index can be thought of as staged changes. We can update the current index using the `git update-index` command, and using the `--cacheinfo` flag we pass it a filetype, a blob hash and a file name. This will create a `.git/index` file which contains the current state.
+ 
+ Once we have the index in a state we would like to store as a tree, we can use `git write-tree`, this creates and stores a tree object and gives us back the hash for it.
+
+$
