@@ -1,6 +1,6 @@
 # Git Internals
  
- ## What makes a git repository?
+## What makes a git repository?
  
  To create a git repository you just need the `.git` directory in your project, with a few essential subdirectories and files.
  
